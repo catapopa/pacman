@@ -1,6 +1,17 @@
 package sample;
 
-public class Cell {
+import java.util.function.Consumer;
+
+public class Cell{
+
+    private int x;
+    private int y;
     private int type;
-    private Position position;
+
+    public Cell(int x, int y, int type) {
+        this.x = x;
+        this.y = y;
+        this.type = type;
+    }
+    //private Position position;
 }

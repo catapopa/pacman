@@ -45,8 +45,7 @@ public class Game {
         try (BufferedReader br = Files.newBufferedReader(path)) {
 
             //br returns as stream and convert it into a List
-            //cells = br.lines().collect(Collectors.toList());
-            cells = br.lines().;
+            cells = br.lines().collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
         }

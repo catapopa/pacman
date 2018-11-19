@@ -26,26 +26,20 @@ public class Game {
         String filePath = "/home/cata/projects/java/pacman/src/sample/board.txt";
         Path path = Paths.get(filePath);
 
-        try (BufferedReader br = Files.newBufferedReader(path)) {
+        // test
+        //Stream<String> lines = Files.lines(path, StandardCharsets.UTF_8);
+        //Stream<String> words = lines.flatMap(line -> Stream.of(line.split(" ")));
 
-            //Stream<String> lines = Files.lines(path, StandardCharsets.UTF_8);
-            //Stream<String> words = lines.flatMap(line -> Stream.of(line.split(" ")));
+        Scanner input = new Scanner(new File(filePath));
+        IntStream.range(0, 10)
+                .forEach(i -> IntStream.range(0, 10)
+                        .forEach(j -> table[i][j] = new Cell(i, j, input.nextInt())));
 
-            Scanner input = new Scanner(new File(filePath));
-            IntStream.range(0, 10)
-                    .forEach(j -> IntStream.range(0, 10)
-                            .forEach(i -> table[i][j] = new Cell(i, j, input.nextInt())));
-
-            for (int a = 0; a <= 9; a++) {
-                for (int b = 0; b <= 9; b++) {
-                    System.out.println(table[a][b].getType());
-                }
+        for (int a = 0; a <= 9; a++) {
+            for (int b = 0; b <= 9; b++) {
+                System.out.println(table[a][b]);
             }
-            //words.forEach(System.out::println);
-            
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+        //words.forEach(System.out::println);
     }
-
 }

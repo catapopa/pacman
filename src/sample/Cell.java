@@ -3,6 +3,17 @@ package sample;
 import java.util.function.Consumer;
 
 public class Cell{
+
+    private int x;
+    private int y;
+    private int type;
+
+    public Cell(int x, int y, int type) {
+        this.x = x;
+        this.y = y;
+        this.type = type;
+    }
+
     public int getX() {
         return x;
     }
@@ -27,14 +38,12 @@ public class Cell{
         this.type = type;
     }
 
-    private int x;
-    private int y;
-    private int type;
-
-    public Cell(int x, int y, int type) {
-        this.x = x;
-        this.y = y;
-        this.type = type;
+    @Override
+    public String toString() {
+        return "Cell: " +
+                "x = " + x +
+                ", y = " + y +
+                ", type = " + type;
     }
     //private Position position;
 }

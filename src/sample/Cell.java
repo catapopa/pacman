@@ -1,12 +1,14 @@
 package sample;
 
-import java.util.function.Consumer;
-
-public class Cell{
+public class Cell {
 
     private int x;
     private int y;
     private int type;
+    // 0 - road, 1 - wall, 2 - pacman, 3 - ghost
+    //private enum Type {wall, road, pacman, ghost};
+    //private Type type;
+    public static int length = 50;
 
     public Cell(int x, int y, int type) {
         this.x = x;
@@ -45,5 +47,4 @@ public class Cell{
                 ", y = " + y +
                 ", type = " + type;
     }
-    //private Position position;
 }

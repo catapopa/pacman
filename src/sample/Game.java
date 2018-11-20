@@ -17,11 +17,12 @@ public class Game {
 
     private Cell[][] table = new Cell[10][10];
 
-    public Game() {
+    public Game() throws FileNotFoundException {
+        fileToMemory();
     }
 
     //    file -> memory
-    public void fileToMemory() throws IOException {
+    public void fileToMemory() throws FileNotFoundException {
 
         String filePath = "/home/cata/projects/java/pacman/src/sample/board.txt";
         Path path = Paths.get(filePath);

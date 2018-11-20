@@ -1,23 +1,27 @@
 package sample;
 
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 
-public class Cell {
+public class Cell{
 
     private int x;
     private int y;
     private int type;
     // 0 - road, 1 - wall, 2 - pacman, 3 - ghost
+
     //private enum Type {wall, road, pacman, ghost};
     //private Type type;
-    public static int length = 50;
+
+    //public static int length = 60;
 
     public Cell(int x, int y, int type) {
         this.x = x;
         this.y = y;
         this.type = type;
+        this.drawCell();
     }
 
     public int getX() {
@@ -52,7 +56,6 @@ public class Cell {
                 ", type = " + type;
     }
 
-
     public Rectangle drawCell() {
 
         Rectangle rectangle = null;
@@ -64,7 +67,7 @@ public class Cell {
             rectangle = new Rectangle(this.x, this.y, 60, 60);
             rectangle.setFill(Color.LAVENDER);
         }
-        
+
         return rectangle;
     }
 

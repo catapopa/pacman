@@ -9,26 +9,25 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
-public class Controller implements Initializable {
+public class Controller {
 
-    Game game;
+    Repository repository;
+
     @FXML
-    GridPane root;
+    GridPane gridPane;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            game = new Game();
-            game.fileToMemory();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
 
+    public Controller(Repository repository) throws FileNotFoundException {
+        this.repository = repository;
+        this.fileToMemory();
     }
 
-    public Game drawTable(){
-
-        //Cell[][] file =
+    public Cell[][] fileToMemory() throws FileNotFoundException {
+        return repository.fileToMemory(this.gridPane);
     }
+
+   /* public Repository drawTable() {
+        //Cell[][] file = // iterez matricea, create block, add to table, root.add(block, row, col)i, j
+    }*/
 
 }

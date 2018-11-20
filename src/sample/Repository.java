@@ -1,28 +1,19 @@
 package sample;
 
+import javafx.scene.layout.GridPane;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
-public class Game {
+
+public class Repository {
 
     private Cell[][] table = new Cell[10][10];
 
-    public Game() throws FileNotFoundException {
-        fileToMemory();
-    }
+    public Repository(){}
 
     //    file -> memory
-    public Cell[][] fileToMemory() throws FileNotFoundException {
+    public Cell[][] fileToMemory(GridPane gridPane) throws FileNotFoundException {
 
         String filePath = "/home/cata/projects/java/pacman/src/sample/board.txt";
 
@@ -31,7 +22,7 @@ public class Game {
                 .forEach(i -> IntStream.range(0, 10)
                         .forEach(j -> {
                             table[i][j] = new Cell(i, j, input.nextInt());
-                            root.getChildren().add(table[i][j]);
+                            gridPane.getChildren().add(table[i][j]);
                         }));
 
         return this.table;

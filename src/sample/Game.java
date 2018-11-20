@@ -22,25 +22,18 @@ public class Game {
     }
 
     //    file -> memory
-    public void fileToMemory() throws FileNotFoundException {
+    public Cell[][] fileToMemory() throws FileNotFoundException {
 
         String filePath = "/home/cata/projects/java/pacman/src/sample/board.txt";
-        Path path = Paths.get(filePath);
-
-        // test
-        //Stream<String> lines = Files.lines(path, StandardCharsets.UTF_8);
-        //Stream<String> words = lines.flatMap(line -> Stream.of(line.split(" ")));
 
         Scanner input = new Scanner(new File(filePath));
         IntStream.range(0, 10)
                 .forEach(i -> IntStream.range(0, 10)
-                        .forEach(j -> table[i][j] = new Cell(i, j, input.nextInt())));
+                        .forEach(j -> {
+                            table[i][j] = new Cell(i, j, input.nextInt());
+                            root.getChildren().add(table[i][j]);
+                        }));
 
-        /*for (int a = 0; a <= 9; a++) {
-            for (int b = 0; b <= 9; b++) {
-                System.out.println(table[a][b]);
-            }
-        }*/
-        //words.forEach(System.out::println);
+        return this.table;
     }
 }

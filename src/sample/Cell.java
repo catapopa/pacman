@@ -1,5 +1,10 @@
 package sample;
 
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+
+import javax.xml.soap.Node;
+
 public class Cell {
 
     private int x;
@@ -47,4 +52,17 @@ public class Cell {
                 ", y = " + y +
                 ", type = " + type;
     }
+
+    public Rectangle drawCell() {
+        Rectangle rectangle = null;
+        if (this.type == 1) {
+            rectangle = new Rectangle(this.x, this.y, 60, 60);
+            rectangle.setFill(Color.BLACK);
+        } else if (this.type == 0) {
+            rectangle = new Rectangle(this.x, this.y, 60, 60);
+            rectangle.setFill(Color.LAVENDER);
+        }
+        return rectangle;
+    }
+    
 }

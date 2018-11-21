@@ -3,19 +3,18 @@ package sample;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.GridPane;
+import javafx.scene.shape.Rectangle;
 
 import java.io.FileNotFoundException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 
-public class Controller implements Initializable{
+public class Controller implements Initializable {
 
-    Repository repository;
-
+    private Repository repository;
     @FXML
-    GridPane gridPane;
+    GridPane root;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -28,13 +27,13 @@ public class Controller implements Initializable{
     }
 
     public Cell[][] fileToMemory() throws FileNotFoundException {
-        return repository.fileToMemory(this.gridPane);
+        return repository.fileToMemory(this.root);
     }
 
     public void drawTable() throws FileNotFoundException {
-       Cell[][] file = this.fileToMemory();
+        //Cell[][] file = this.fileToMemory();
         //Arrays.stream(file).map()
-       // iterez matricea, create block, add to table, root.add(block, row, col)i, j
+        // iterez matricea, create block, add to table, root.add(block, row, col)i, j
     }
 
 }

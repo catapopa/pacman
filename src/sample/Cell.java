@@ -5,11 +5,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 
-public class Cell{
+public class Cell {
 
     private int x;
     private int y;
     private int type;
+    private Node node;
     // 0 - road, 1 - wall, 2 - pacman, 3 - ghost
 
     //private enum Type {wall, road, pacman, ghost};
@@ -21,7 +22,6 @@ public class Cell{
         this.x = x;
         this.y = y;
         this.type = type;
-        this.drawCell();
     }
 
     public int getX() {
@@ -48,6 +48,20 @@ public class Cell{
         this.type = type;
     }
 
+    public Node getNode(){
+        return this.node;
+    }
+
+    public void setNode() {
+        if (this.type == 1) {
+            this.node = new Rectangle(this.x, this.y, 60, 60);
+            ((Rectangle)node).setFill(Color.BLUEVIOLET);
+        } else if (this.type == 0) {
+            this.node = new Rectangle(this.x, this.y, 60, 60);
+            ((Rectangle)node).setFill(Color.LAVENDER);
+        }
+    }
+
     @Override
     public String toString() {
         return "Cell: " +
@@ -55,20 +69,4 @@ public class Cell{
                 ", y = " + y +
                 ", type = " + type;
     }
-
-    public Rectangle drawCell() {
-
-        Rectangle rectangle = null;
-
-        if (this.type == 1) {
-            rectangle = new Rectangle(this.x, this.y, 60, 60);
-            rectangle.setFill(Color.BLACK);
-        } else if (this.type == 0) {
-            rectangle = new Rectangle(this.x, this.y, 60, 60);
-            rectangle.setFill(Color.LAVENDER);
-        }
-
-        return rectangle;
-    }
-
 }

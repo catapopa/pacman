@@ -19,4 +19,8 @@ public class Wall extends Cell {
         }
         return Color.WHEAT;
     }
+
+    public boolean isBlock() {
+        return block;
+    }
 }

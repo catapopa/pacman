@@ -21,5 +21,6 @@ public class Pacman extends Cell {
     public void init(int x, int y){
         super.setX(x);
         super.setY(y);
+        super.getNode().relocate(x, y);
     }
 }

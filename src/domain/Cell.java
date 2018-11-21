@@ -10,13 +10,16 @@ public abstract class Cell {
     private int x;
     private int y;
     private Color color;
-    private Node node;
+    private Rectangle node;
     // 0 - road, 1 - wall, 2 - pacman, 3 - ghost
 
     public Cell(int x, int y, Color color) {
         this.x = x;
         this.y = y;
         this.color = color;
+
+        this.node = new Rectangle(0, 0, 60, 60);
+        ((Rectangle) node).setFill(this.color);
     }
 
     public int getX() {
@@ -41,19 +44,11 @@ public abstract class Cell {
 
     public void setColor(Color color) {
         this.color = color;
-    }
-
-    public void setNode(Node node) {
-        this.node = node;
+        ((Rectangle) node).setFill(this.color);
     }
 
     public Node getNode() {
-        return this.node;
-    }
-
-    public void setNode() {
-        this.node = new Rectangle(this.x, this.y, 60, 60);
-        ((Rectangle) node).setFill(this.color);
+        return node;
     }
 
     @Override

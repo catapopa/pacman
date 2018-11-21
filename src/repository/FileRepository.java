@@ -1,8 +1,8 @@
 package repository;
 
-import domain.Cell;
+import constants.Constants;
 import domain.Wall;
-import javafx.scene.layout.GridPane;
+import domain.Wall;
 
 import java.io.*;
 import java.util.Scanner;
@@ -14,16 +14,11 @@ Parent: The abstract base class for all branch nodes. (This class directly exten
 Scene: The base container class for all content in the scene graph.*/
 
 
-public class TableRepository {
-
-    private Cell[][] table;
-
-    public TableRepository() {
-        this.table = new Cell[10][10];
-    }
+public class FileRepository {
 
     // file -> memory
-    public void fileToMemory() throws FileNotFoundException {
+    public Wall[][] fileToMemory() throws FileNotFoundException {
+        Wall[][] wall = new Wall[10][10];
         String filePath = "/home/cata/projects/java/pacman/src/assets/table.txt";
         Scanner input = new Scanner(new File(filePath));
         IntStream.range(0, 10)
@@ -33,16 +28,8 @@ public class TableRepository {
                             if (input.nextInt() == 0) {
                                 block = false;
                             }
-                            table[i][j] = new Wall(i, j, block);
-                            table[i][j].setNode();
+                            wall[i][j] = new Wall(i * Constants.cellSize, j * Constants.cellSize, block);
                         }));
-    }
-
-    public void draw(GridPane root) {
-        IntStream.range(0, 10)
-                .forEach(i -> IntStream.range(0, 10)
-                        .forEach(j -> {
-                            root.add(this.table[i][j].getNode(), j, i);
-                        }));
+        return wall;
     }
 }

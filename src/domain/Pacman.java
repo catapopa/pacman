@@ -1,4 +1,6 @@
-package sample;
+package domain;
+
+import domain.Cell;
 
 public class Pacman {
 

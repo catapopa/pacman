@@ -1,4 +1,4 @@
-package sample;
+package domain;
 
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
@@ -12,11 +12,6 @@ public class Cell {
     private int type;
     private Node node;
     // 0 - road, 1 - wall, 2 - pacman, 3 - ghost
-
-    //private enum Type {wall, road, pacman, ghost};
-    //private Type type;
-
-    //public static int length = 60;
 
     public Cell(int x, int y, int type) {
         this.x = x;

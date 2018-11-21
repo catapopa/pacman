@@ -1,24 +1,25 @@
-package sample;
+package controller;
 
+import domain.Cell;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.GridPane;
-import javafx.scene.shape.Rectangle;
+import repository.TableRepository;
 
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 
-public class Controller implements Initializable {
+public class TableController implements Initializable {
 
-    private Repository repository;
+    private TableRepository tableRepository;
     @FXML
     GridPane root;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.repository = new Repository();
+        this.tableRepository = new TableRepository();
         try {
             this.fileToMemory();
         } catch (FileNotFoundException e) {
@@ -26,8 +27,8 @@ public class Controller implements Initializable {
         }
     }
 
-    public Cell[][] fileToMemory() throws FileNotFoundException {
-        return repository.fileToMemory(this.root);
+    private Cell[][] fileToMemory() throws FileNotFoundException {
+        return tableRepository.fileToMemory(this.root);
     }
 
     public void drawTable() throws FileNotFoundException {

@@ -1,7 +1,9 @@
 package repository;
 
 import domain.Cell;
+import domain.Wall;
 import javafx.scene.layout.GridPane;
+
 import java.io.*;
 import java.util.Scanner;
 import java.util.stream.IntStream;
@@ -21,19 +23,26 @@ public class TableRepository {
     }
 
     // file -> memory
-    public Cell[][] fileToMemory(GridPane root) throws FileNotFoundException {
-
-        String filePath = "/home/cata/projects/java/pacman/src/assets/board.txt";
-
+    public void fileToMemory() throws FileNotFoundException {
+        String filePath = "/home/cata/projects/java/pacman/src/assets/table.txt";
         Scanner input = new Scanner(new File(filePath));
         IntStream.range(0, 10)
                 .forEach(i -> IntStream.range(0, 10)
                         .forEach(j -> {
-                            table[i][j] = new Cell(i, j, input.nextInt());
+                            boolean block = true;
+                            if (input.nextInt() == 0) {
+                                block = false;
+                            }
+                            table[i][j] = new Wall(i, j, block);
                             table[i][j].setNode();
-                            root.add(table[i][j].getNode(), j, i);
                         }));
-        return this.table;
     }
 
+    public void draw(GridPane root) {
+        IntStream.range(0, 10)
+                .forEach(i -> IntStream.range(0, 10)
+                        .forEach(j -> {
+                            root.add(this.table[i][j].getNode(), j, i);
+                        }));
+    }
 }

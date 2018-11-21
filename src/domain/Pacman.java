@@ -1,29 +1,25 @@
 package domain;
 
-import domain.Cell;
+import javafx.scene.paint.Color;
 
-public class Pacman {
+public class Pacman extends Cell {
 
-    private int x;
-    private int y;
+    private static Pacman single_instance = null;
 
-    public Pacman() {
-        Cell cell = new Cell(this.x, this.y, 2);
+    private Pacman() {
+        super(0,0, Color.YELLOW);
     }
 
-    public int getX() {
-        return x;
+    // static method to create instance of Singleton class
+    public static Pacman getInstance() {
+        if (single_instance == null)
+            single_instance = new Pacman();
+
+        return single_instance;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
+    public void init(int x, int y){
+        super.setX(x);
+        super.setY(y);
     }
 }

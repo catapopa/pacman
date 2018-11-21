@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 public class TableController implements Initializable {
 
     private TableRepository tableRepository;
+
     @FXML
     GridPane root;
 
@@ -21,20 +22,10 @@ public class TableController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.tableRepository = new TableRepository();
         try {
-            this.fileToMemory();
+            this.tableRepository.fileToMemory();
+            this.tableRepository.draw(this.root);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
-
-    private Cell[][] fileToMemory() throws FileNotFoundException {
-        return tableRepository.fileToMemory(this.root);
-    }
-
-    public void drawTable() throws FileNotFoundException {
-        //Cell[][] file = this.fileToMemory();
-        //Arrays.stream(file).map()
-        // iterez matricea, create block, add to table, root.add(block, row, col)i, j
-    }
-
 }

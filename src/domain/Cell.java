@@ -5,18 +5,18 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 
-public class Cell {
+public abstract class Cell {
 
     private int x;
     private int y;
-    private int type;
+    private Color color;
     private Node node;
     // 0 - road, 1 - wall, 2 - pacman, 3 - ghost
 
-    public Cell(int x, int y, int type) {
+    public Cell(int x, int y, Color color) {
         this.x = x;
         this.y = y;
-        this.type = type;
+        this.color = color;
     }
 
     public int getX() {
@@ -35,26 +35,25 @@ public class Cell {
         this.y = y;
     }
 
-    public int getType() {
-        return type;
+    public Color getColor() {
+        return color;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setColor(Color color) {
+        this.color = color;
     }
 
-    public Node getNode(){
+    public void setNode(Node node) {
+        this.node = node;
+    }
+
+    public Node getNode() {
         return this.node;
     }
 
     public void setNode() {
-        if (this.type == 1) {
-            this.node = new Rectangle(this.x, this.y, 60, 60);
-            ((Rectangle)node).setFill(Color.BLUEVIOLET);
-        } else if (this.type == 0) {
-            this.node = new Rectangle(this.x, this.y, 60, 60);
-            ((Rectangle)node).setFill(Color.LAVENDER);
-        }
+        this.node = new Rectangle(this.x, this.y, 60, 60);
+        ((Rectangle) node).setFill(this.color);
     }
 
     @Override
@@ -62,6 +61,6 @@ public class Cell {
         return "Cell: " +
                 "x = " + x +
                 ", y = " + y +
-                ", type = " + type;
+                ", color = " + color;
     }
 }

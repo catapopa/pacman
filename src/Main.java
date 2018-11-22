@@ -37,19 +37,15 @@ public class Main extends Application {
         scene.setOnKeyPressed(event -> {
               switch (event.getCode()) {
                 case UP:
-                    System.out.println("up");
                     pacmanController.moveUp();
                     break;
                 case DOWN:
-                    System.out.println("down");
                     pacmanController.moveDown();
                     break;
                 case LEFT:
-                    System.out.println("left");
                     pacmanController.moveLeft();
                     break;
                 case RIGHT:
-                    System.out.println("right");
                     pacmanController.moveRight();
                     break;
             }
@@ -66,9 +62,7 @@ public class Main extends Application {
         GridPane root = new GridPane();
         IntStream.range(0, 10)
                 .forEach(i -> IntStream.range(0, 10)
-                        .forEach(j -> {
-                            root.add(wall[i][j].getNode(), wall[i][j].getY(), wall[i][j].getX());
-                        }));
+                        .forEach(j -> root.add(wall[i][j].getNode(), wall[i][j].getX(), wall[i][j].getY())));
         return root;
     }
 

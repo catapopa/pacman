@@ -11,9 +11,9 @@ public class PacmanRepository {
 
     public void moveUp(){
         int y = pacman.getY();
-        if(y != 0) {
+        //if(y != 0) {
             pacman.setY(y - Constants.cellSize);
-        }
+        //}
     }
 
     public void moveDown(){

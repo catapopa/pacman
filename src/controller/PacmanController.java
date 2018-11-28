@@ -42,13 +42,13 @@ public class PacmanController {
         this.pacmanRepository.moveRight();
     }
 
-    private boolean checkCollision(String direction){
+    private boolean checkCollision(String direction) {
         Pacman pacman = Pacman.getInstance();
         int x = pacman.getX();
         int y = pacman.getY();
-        switch (direction){
+        switch (direction) {
             case "UP":
-               return wallController.checkCollision(x, y - Constants.cellSize);
+                return wallController.checkCollision(x, y - Constants.cellSize);
             case "DOWN":
                 return wallController.checkCollision(x, y + Constants.cellSize);
             case "LEFT":

@@ -2,11 +2,8 @@ package domain;
 
 import javafx.scene.paint.Color;
 
-import java.util.Random;
-
 public class Ghost extends Cell {
 
-    Random random = new Random();
 
     private Ghost() {
         super(0, 0, Color.ORANGERED);

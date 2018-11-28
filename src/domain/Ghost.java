@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 public class Ghost extends Cell {
 
 
-    private Ghost() {
+    public Ghost() {
         super(0, 0, Color.ORANGERED);
     }
 

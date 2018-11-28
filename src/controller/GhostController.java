@@ -64,23 +64,26 @@ public class GhostController {
             case UP:
                 if (!wallController.checkCollision(x, y - Constants.cellSize)) {
                     this.ghostRepository.moveUp(ghost);
-                    ghost.getNode().relocate(x, y);
+                    break;
                 }
             case DOWN:
                 if (!wallController.checkCollision(x, y + Constants.cellSize)) {
                     this.ghostRepository.moveDown(ghost);
-                    ghost.getNode().relocate(x, y);
+                    break;
+
                 }
             case LEFT:
                 if (!wallController.checkCollision(x - Constants.cellSize, y)) {
                     this.ghostRepository.moveLeft(ghost);
-                    ghost.getNode().relocate(x, y);
+                    break;
+
                 }
             case RIGHT:
                 if (!wallController.checkCollision(x + Constants.cellSize, y)) {
                     this.ghostRepository.moveRight(ghost);
-                    ghost.getNode().relocate(x, y);
+                    break;
                 }
         }
+        ghost.getNode().relocate(x, y);
     }
 }

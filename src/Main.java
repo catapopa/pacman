@@ -39,7 +39,7 @@ public class Main extends Application {
         stage.setTitle("P a c m a n");
         GridPane wallPane = drawWall();
 
-        // TODO fantomele din lista trebuie puse in group
+        // TODO fantomele intra in zid in unele locuri; posibila problema: axele sunt inversate
 
         Group group = new Group(wallPane, pacman.getNode());
         IntStream.range(0, numberOfGhosts)

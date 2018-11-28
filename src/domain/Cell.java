@@ -43,7 +43,7 @@ public abstract class Cell {
 
     public void setColor(Color color) {
         this.color = color;
-        ((Rectangle) node).setFill(this.color);
+        node.setFill(this.color);
     }
 
     public Node getNode() {

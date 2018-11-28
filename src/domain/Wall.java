@@ -17,7 +17,7 @@ public class Wall extends Cell {
         if (block){
             return Color.BLACK;
         }
-        return Color.ALICEBLUE;
+        return Color.OLIVEDRAB;
     }
 
     public boolean isBlock() {

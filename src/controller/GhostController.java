@@ -12,19 +12,20 @@ public class GhostController {
 
     enum Direction {UP, DOWN, LEFT, RIGHT}
 
-    enum SpeedOption {SLOW, MEDIUM, FAST}
+    public enum SpeedOption {SLOW, MEDIUM, FAST}
 
+    public SpeedOption selectedSpeed;
     private HashMap<SpeedOption, Integer> speed;
-    private SpeedOption selectedSpeed;
     private Timer timer;
     private GhostRepository ghostRepository;
     private WallController wallController;
 
+
     public GhostController(GhostRepository ghostRepository, WallController wallController, SpeedOption selectedSpeed) {
         this.speed = new HashMap<>();
-        this.speed.put(SpeedOption.SLOW, 10);
-        this.speed.put(SpeedOption.MEDIUM, 100);
-        this.speed.put(SpeedOption.FAST, 1000);
+        this.speed.put(SpeedOption.SLOW, 1000);
+        this.speed.put(SpeedOption.MEDIUM, 500);
+        this.speed.put(SpeedOption.FAST, 250);
         this.selectedSpeed = selectedSpeed;
 
         this.timer = new Timer();
@@ -39,8 +40,8 @@ public class GhostController {
         }
     };
 
-    public void start(int speed) {
-        timer.scheduleAtFixedRate(timerTask, 1000, speed);
+    public void start() {
+        timer.scheduleAtFixedRate(timerTask, 1000, speed.get(this.selectedSpeed));
     }
 
     public Direction getRandomDirection() {
@@ -63,18 +64,22 @@ public class GhostController {
             case UP:
                 if (!wallController.checkCollision(x, y - Constants.cellSize)) {
                     this.ghostRepository.moveUp(ghost);
+                    ghost.getNode().relocate(x, y);
                 }
             case DOWN:
                 if (!wallController.checkCollision(x, y + Constants.cellSize)) {
                     this.ghostRepository.moveDown(ghost);
+                    ghost.getNode().relocate(x, y);
                 }
             case LEFT:
                 if (!wallController.checkCollision(x - Constants.cellSize, y)) {
                     this.ghostRepository.moveLeft(ghost);
+                    ghost.getNode().relocate(x, y);
                 }
             case RIGHT:
                 if (!wallController.checkCollision(x + Constants.cellSize, y)) {
                     this.ghostRepository.moveRight(ghost);
+                    ghost.getNode().relocate(x, y);
                 }
         }
     }

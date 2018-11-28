@@ -20,7 +20,7 @@ public class GhostRepository {
     }
 
     public void createGhosts(int numberOfGhosts) {
-        IntStream.range(0, numberOfGhosts + 1)
+        IntStream.range(0, numberOfGhosts)
                 .forEach(i -> ghosts.add(new Ghost()));
     }
 

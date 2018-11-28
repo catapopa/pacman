@@ -11,7 +11,6 @@ public abstract class Cell {
     private int y;
     private Color color;
     private Rectangle node;
-    // 0 - road, 1 - wall, 2 - pacman, 3 - ghost
 
     public Cell(int x, int y, Color color) {
         this.x = x;
@@ -19,7 +18,7 @@ public abstract class Cell {
         this.color = color;
 
         this.node = new Rectangle(0, 0, 60, 60);
-        ((Rectangle) node).setFill(this.color);
+        node.setFill(this.color);
     }
 
     public int getX() {

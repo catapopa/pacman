@@ -2,17 +2,22 @@ package controller;
 
 import constants.Constants;
 import constants.Constants.Direction;
+import domain.Ghost;
 import domain.Pacman;
 import repository.PacmanRepository;
+
+import java.util.List;
+import java.util.stream.IntStream;
 
 public class PacmanController {
     private PacmanRepository pacmanRepository;
     private WallController wallController;
+    private GhostController ghostController;
 
-
-    public PacmanController(WallController wallController) {
+    public PacmanController(WallController wallController, GhostController ghostController) {
         pacmanRepository = new PacmanRepository();
         this.wallController = wallController;
+        this.ghostController = ghostController;
     }
 
     public void move(Direction direction) {
@@ -42,5 +47,13 @@ public class PacmanController {
                 break;
         }
         pacman.getNode().relocate(pacman.getX(), pacman.getY());
+        List<Ghost> ghosts = this.ghostController.getGhostList();
+        IntStream.range(0, ghosts.size())
+                .forEach(i -> {
+                    if (ghostController.pacmanVsGhost(ghosts.get(i))) {
+                        System.out.println("Game Over");
+                    }
+                });
     }
+
 }

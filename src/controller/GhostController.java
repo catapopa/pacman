@@ -4,6 +4,7 @@ import constants.Constants;
 import constants.Constants.SpeedOption;
 import constants.Constants.Direction;
 import domain.Ghost;
+import domain.Pacman;
 import repository.GhostRepository;
 
 import java.util.*;
@@ -29,7 +30,11 @@ public class GhostController {
         this.wallController = wallController;
     }
 
-    TimerTask timerTask = new TimerTask() {
+    public List<Ghost> getGhostList() {
+        return this.ghostRepository.getGhostList();
+    }
+
+    private TimerTask timerTask = new TimerTask() {
         @Override
         public void run() {
             move();
@@ -40,7 +45,7 @@ public class GhostController {
         timer.scheduleAtFixedRate(timerTask, 1000, speed.get(this.selectedSpeed));
     }
 
-    public Direction getRandomDirection() {
+    private Direction getRandomDirection() {
         Random random = new Random();
         return Direction.values()[random.nextInt(Direction.values().length)];
     }
@@ -48,7 +53,12 @@ public class GhostController {
     private void move() {
         List<Ghost> ghosts = this.ghostRepository.getGhostList();
         IntStream.range(0, ghosts.size())
-                .forEach(i -> this.checkCollision(ghosts.get(i)));
+                .forEach(i -> {
+                    this.checkCollision(ghosts.get(i));
+                    if (pacmanVsGhost(ghosts.get(i))) {
+                        System.out.println("Game Over");
+                    }
+                });
     }
 
     private void checkCollision(Ghost ghost) {
@@ -95,7 +105,7 @@ public class GhostController {
         ghost.getNode().relocate(x, y);
     }
 
-    public List<Ghost> getGhostList() {
-        return this.ghostRepository.getGhostList();
+    public boolean pacmanVsGhost(Ghost ghost) {
+        return (Pacman.getInstance().getX() == ghost.getX() && Pacman.getInstance().getY() == ghost.getY());
     }
 }

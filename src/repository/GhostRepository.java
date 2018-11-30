@@ -26,22 +26,22 @@ public class GhostRepository {
 
     public void moveUp(Ghost ghost) {
         int y = ghost.getY();
-        ghost.setY(y - 30);
+        ghost.setY(y - 60);
     }
 
     public void moveDown(Ghost ghost) {
         int y = ghost.getY();
-        ghost.setY(y + 30);
+        ghost.setY(y + 60);
     }
 
     public void moveLeft(Ghost ghost) {
         int x = ghost.getX();
-        ghost.setX(x - 30);
+        ghost.setX(x - 60);
     }
 
     public void moveRight(Ghost ghost) {
         int x = ghost.getX();
-        ghost.setX(x + 30);
+        ghost.setX(x + 60);
     }
 
 }

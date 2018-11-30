@@ -7,7 +7,6 @@ import domain.Pacman;
 import repository.PacmanRepository;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class PacmanController {
     private PacmanRepository pacmanRepository;
@@ -47,13 +46,8 @@ public class PacmanController {
                 break;
         }
         pacman.getNode().relocate(pacman.getX(), pacman.getY());
+
         List<Ghost> ghosts = this.ghostController.getGhostList();
-        IntStream.range(0, ghosts.size())
-                .forEach(i -> {
-                    if (ghostController.pacmanVsGhost(ghosts.get(i))) {
-                        System.out.println("Game Over");
-                    }
-                });
     }
 
 }

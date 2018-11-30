@@ -8,16 +8,17 @@ import domain.Pacman;
 import repository.GhostRepository;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.IntStream;
 
 public class GhostController {
 
     private SpeedOption selectedSpeed;
+
     private HashMap<SpeedOption, Integer> speed;
     private Timer timer;
     private GhostRepository ghostRepository;
     private WallController wallController;
-
     public GhostController(WallController wallController, SpeedOption selectedSpeed, int numberOfGhosts) {
         this.speed = new HashMap<>();
         this.speed.put(SpeedOption.SLOW, 1000);
@@ -28,6 +29,10 @@ public class GhostController {
         this.timer = new Timer();
         this.ghostRepository = new GhostRepository(numberOfGhosts);
         this.wallController = wallController;
+    }
+
+    public Timer getTimer() {
+        return timer;
     }
 
     public List<Ghost> getGhostList() {
@@ -55,9 +60,6 @@ public class GhostController {
         IntStream.range(0, ghosts.size())
                 .forEach(i -> {
                     this.checkCollision(ghosts.get(i));
-                    if (pacmanVsGhost(ghosts.get(i))) {
-                        System.out.println("Game Over");
-                    }
                 });
     }
 
@@ -105,7 +107,16 @@ public class GhostController {
         ghost.getNode().relocate(x, y);
     }
 
-    public boolean pacmanVsGhost(Ghost ghost) {
-        return (Pacman.getInstance().getX() == ghost.getX() && Pacman.getInstance().getY() == ghost.getY());
+    public AtomicBoolean pacmanVsGhost() {
+        List<Ghost> ghosts = this.ghostRepository.getGhostList();
+        AtomicBoolean ok = new AtomicBoolean(false);
+        IntStream.range(0, ghosts.size())
+                .forEach(i -> {
+                    Ghost ghost = ghosts.get(i);
+                    if (Pacman.getInstance().getX() == ghost.getX() && Pacman.getInstance().getY() == ghost.getY()) {
+                        ok.set(true);
+                    }
+                });
+        return ok;
     }
 }

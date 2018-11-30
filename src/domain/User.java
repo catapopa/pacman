@@ -6,12 +6,12 @@ public class User {
 
     private String name;
     private Integer score;
-    private Date created_at;
+    private String created_at;
 
-    public User(String name, Integer score) {
+    public User(String name, Integer score, String created_at) {
         this.name = name;
         this.score = score;
-        this.created_at = new java.util.Date();
+        this.created_at = created_at;
     }
 
     public String getName() {
@@ -30,11 +30,20 @@ public class User {
         this.score = score;
     }
 
-    public Date getCreated_at() {
+    public String getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(Date created_at) {
-        this.created_at = created_at;
+    public void setCreated_at() {
+        this.created_at = String.valueOf(new Date());
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", score=" + score +
+                ", created_at=" + created_at +
+                '}';
     }
 }

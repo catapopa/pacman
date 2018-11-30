@@ -2,11 +2,12 @@ import constants.Constants;
 import constants.Constants.Direction;
 import controller.GhostController;
 import controller.PacmanController;
+import domain.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import repository.UserDatabase;
 import controller.WallController;
@@ -18,23 +19,17 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import java.util.Date;
 import java.util.stream.IntStream;
 
 import static constants.Constants.SpeedOption.FAST;
 import static constants.Constants.SpeedOption.MEDIUM;
 import static constants.Constants.SpeedOption.SLOW;
 
-/*TODO
- * choose speed, choose number of ghosts
- * score - name, points
- * */
-
 public class Main extends Application {
     private Cell[][] wall;
     private Stage stage = new Stage();
-    private Scene choiceScene, gameScene, scoreScene;
-
-    //UserDatabase userdataBase = new UserDatabase();
+    private TextField userNameTextFiled;
 
     @Override
     public void start(Stage primaryStage) {
@@ -43,6 +38,7 @@ public class Main extends Application {
         stage.setTitle("P a c m a n");
         this.setChoiceScene();
         stage.show();
+
     }
 
     private void setChoiceScene() {
@@ -58,17 +54,18 @@ public class Main extends Application {
         ghostChoice.setValue(3);
 
         Label userNameLabel = new Label("Enter name below");
-        TextField userName = new TextField();
+        userNameTextFiled = new TextField();
 
         Button okButton = new Button("start!");
-        okButton.setOnAction(e -> this.setGameScene(ghostChoice.getValue(), speedChoice.getValue()));
+        //okButton.setOnAction(e -> this.setGameScene(ghostChoice.getValue(), speedChoice.getValue()));
+        okButton.setOnAction(e -> this.setScoreScene(0));
 
         VBox layout = new VBox(20);
         layout.setPadding(new Insets(20, 30, 20, 20));
-        layout.getChildren().addAll(speedLabel, speedChoice, ghostsLabel, ghostChoice, userNameLabel, userName, okButton);
+        layout.getChildren().addAll(speedLabel, speedChoice, ghostsLabel, ghostChoice, userNameLabel, userNameTextFiled, okButton);
 
-        this.choiceScene = new Scene(layout, 600, 600);
-        stage.setScene(this.choiceScene);
+        Scene choiceScene = new Scene(layout, 600, 600);
+        stage.setScene(choiceScene);
     }
 
     private void setGameScene(int numberOfGhosts, Constants.SpeedOption speedOption) {
@@ -87,8 +84,8 @@ public class Main extends Application {
 
         GridPane wallPane = drawWall();
         AnchorPane anchor = new AnchorPane(wallPane, pacman.getNode());
-        this.gameScene = new Scene(anchor, 600, 600);
-        stage.setScene(this.gameScene);
+        Scene gameScene = new Scene(anchor, 600, 600);
+        stage.setScene(gameScene);
 
         IntStream.range(0, numberOfGhosts)
                 .forEach(i -> anchor.getChildren().add(ghostController.getGhostList().get(i).getNode()));
@@ -109,6 +106,54 @@ public class Main extends Application {
                     break;
             }
         });
+
+        final Integer[] points = {0};
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        points[0] += 1;
+                        if (ghostController.pacmanVsGhost().get()) {
+                            ghostController.getTimer().cancel();
+                            this.cancel();
+                            setScoreScene(points[0]);
+                        }
+                    }
+                },
+                2000, 50
+        );
+        /*if (ghostController.pacmanVsGhost().get()) {
+            setScoreScene(points[0]);
+        }*/
+    }
+
+    private void setScoreScene(Integer points) {
+
+        UserDatabase userDatabase = new UserDatabase();
+        User user = new User(userNameTextFiled.getText(), points, String.valueOf(new Date()));
+        userDatabase.addToDatabase(user);
+        userDatabase.getFromDatabase();
+
+        TableColumn<User, String> nameColumn = new TableColumn<>("Name");
+        TableColumn<User, Integer> scoreColumn = new TableColumn<>("Score");
+        TableColumn<User, Date> dateColumn = new TableColumn<>("Date");
+        nameColumn.setMinWidth(200);
+        scoreColumn.setMinWidth(200);
+        dateColumn.setMinWidth(200);
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        scoreColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("created_at"));
+
+        TableView users = new TableView();
+
+        ObservableList<User> userObservableList = FXCollections.observableArrayList();
+
+        userObservableList.addAll(userDatabase.getUsers());
+        users.setItems(userObservableList);
+        users.getColumns().addAll(nameColumn, scoreColumn, dateColumn);
+
+        Scene scoreScene = new Scene(users, 600, 600);
+        stage.setScene(scoreScene);
     }
 
     private GridPane drawWall() {

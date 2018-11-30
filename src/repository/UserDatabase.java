@@ -21,6 +21,7 @@ public class UserDatabase {
         Connection conn = null;
         Statement stmt = null;
         PreparedStatement preparedStatement;
+
         try {
             //STEP 2: Register JDBC driver
             Class.forName("org.mariadb.jdbc.Driver");

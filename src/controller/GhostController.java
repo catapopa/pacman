@@ -14,9 +14,11 @@ import java.util.stream.IntStream;
 public class GhostController {
 
     private SpeedOption selectedSpeed;
-
     private HashMap<SpeedOption, Integer> speed;
     private Timer timer;
+
+    private boolean isAlive = false;
+
     private GhostRepository ghostRepository;
     private WallController wallController;
     public GhostController(WallController wallController, SpeedOption selectedSpeed, int numberOfGhosts) {
@@ -31,8 +33,8 @@ public class GhostController {
         this.wallController = wallController;
     }
 
-    public Timer getTimer() {
-        return timer;
+    public boolean getIsAlive() {
+        return isAlive;
     }
 
     public List<Ghost> getGhostList() {
@@ -42,12 +44,21 @@ public class GhostController {
     private TimerTask timerTask = new TimerTask() {
         @Override
         public void run() {
+            if (pacmanVsGhost().get()) {
+                isAlive = false;
+                timer.cancel();
+            }
             move();
+            /*if (pacmanVsGhost().get()) {
+                isAlive = false;
+                timer.cancel();
+            }*/
         }
     };
 
     public void start() {
         timer.scheduleAtFixedRate(timerTask, 1000, speed.get(this.selectedSpeed));
+        this.isAlive = true;
     }
 
     private Direction getRandomDirection() {

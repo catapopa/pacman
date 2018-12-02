@@ -27,9 +27,11 @@ import static constants.Constants.SpeedOption.MEDIUM;
 import static constants.Constants.SpeedOption.SLOW;
 
 public class Main extends Application {
+
     private Cell[][] wall;
     private Stage stage = new Stage();
     private TextField userNameTextFiled;
+    private boolean gameRunning = false;
 
     @Override
     public void start(Stage primaryStage) {
@@ -57,8 +59,8 @@ public class Main extends Application {
         userNameTextFiled = new TextField();
 
         Button okButton = new Button("start!");
-        //okButton.setOnAction(e -> this.setGameScene(ghostChoice.getValue(), speedChoice.getValue()));
-        okButton.setOnAction(e -> this.setScoreScene(0));
+        okButton.setOnAction(e -> this.setGameScene(ghostChoice.getValue(), speedChoice.getValue()));
+        //okButton.setOnAction(e -> this.setScoreScene(0));
 
         VBox layout = new VBox(20);
         layout.setPadding(new Insets(20, 30, 20, 20));
@@ -107,27 +109,34 @@ public class Main extends Application {
             }
         });
 
+        this.gameRunning = ghostController.getIsAlive();
         final Integer[] points = {0};
+
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
                         points[0] += 1;
-                        if (ghostController.pacmanVsGhost().get()) {
-                            ghostController.getTimer().cancel();
+                        if (!ghostController.getIsAlive()) {
                             this.cancel();
-                            setScoreScene(points[0]);
+                            gameRunning = ghostController.getIsAlive();
+                            //setScoreScene(points[0]);
                         }
                     }
-                },
-                2000, 50
+                }, 2000, 50
         );
-        /*if (ghostController.pacmanVsGhost().get()) {
-            setScoreScene(points[0]);
+
+       /* while (gameRunning) {
+            if (!ghostController.getIsAlive()) {
+                gameRunning = false;
+                this.setScoreScene(points[0]);
+            }
         }*/
     }
 
     private void setScoreScene(Integer points) {
+        // scene 3
+        ObservableList<User> userObservableList = FXCollections.observableArrayList();
 
         UserDatabase userDatabase = new UserDatabase();
         User user = new User(userNameTextFiled.getText(), points, String.valueOf(new Date()));
@@ -143,14 +152,13 @@ public class Main extends Application {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         scoreColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("created_at"));
-
+        System.out.println("column");
         TableView users = new TableView();
-
-        ObservableList<User> userObservableList = FXCollections.observableArrayList();
 
         userObservableList.addAll(userDatabase.getUsers());
         users.setItems(userObservableList);
         users.getColumns().addAll(nameColumn, scoreColumn, dateColumn);
+        System.out.println("list");
 
         Scene scoreScene = new Scene(users, 600, 600);
         stage.setScene(scoreScene);

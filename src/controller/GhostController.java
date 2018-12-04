@@ -17,7 +17,7 @@ public class GhostController {
     private HashMap<SpeedOption, Integer> speed;
     private Timer timer;
 
-    private boolean isAlive = false;
+    public boolean isAlive = false;
 
     private GhostRepository ghostRepository;
     private WallController wallController;
@@ -31,10 +31,6 @@ public class GhostController {
         this.timer = new Timer();
         this.ghostRepository = new GhostRepository(numberOfGhosts);
         this.wallController = wallController;
-    }
-
-    public boolean getIsAlive() {
-        return isAlive;
     }
 
     public List<Ghost> getGhostList() {
@@ -69,9 +65,7 @@ public class GhostController {
     private void move() {
         List<Ghost> ghosts = this.ghostRepository.getGhostList();
         IntStream.range(0, ghosts.size())
-                .forEach(i -> {
-                    this.checkCollision(ghosts.get(i));
-                });
+                .forEach(i -> this.checkCollision(ghosts.get(i)));
     }
 
     private void checkCollision(Ghost ghost) {

@@ -5,6 +5,7 @@ import controller.WallController;
 import domain.Cell;
 import domain.Pacman;
 import domain.User;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -128,41 +129,42 @@ class View {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         scoreColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("created_at"));
-        System.out.println("column");
         TableView users = new TableView();
 
         userObservableList.addAll(userDatabase.getUsers());
         users.setItems(userObservableList);
         users.getColumns().addAll(nameColumn, scoreColumn, dateColumn);
-        System.out.println("list");
 
         Scene scoreScene = new Scene(users, 600, 600);
-        stage.setScene(scoreScene);
+        Platform.runLater(() -> {
+            stage.setScene(scoreScene);
+            stage.show();
+        });
     }
 
-    private TimerTask timerTask = new TimerTask() {
-        @Override
-        public void run() {
-            final Integer[] points = {0};
+        private TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                final Integer[] points = {0};
 
-            points[0] += 1;
-            if (!ghostController.getIsAlive()) {
-                this.cancel();
-                setScoreScene(points[0]);
+                if (!ghostController.isAlive) {
+                    timer.cancel();
+                    //stage.close();
+                    setScoreScene(points[0] += 1);
+                }
             }
+        };
+
+        private void start () {
+            this.timer.scheduleAtFixedRate(this.timerTask, 1000, 1000);
         }
-    };
 
-    private void start() {
-        this.timer.scheduleAtFixedRate(this.timerTask, 1000, 1000);
+        private GridPane drawWall () {
+            GridPane root = new GridPane();
+            IntStream.range(0, 10)
+                    .forEach(i -> IntStream.range(0, 10)
+                            .forEach(j -> root.add(wall[i][j].getNode(), wall[i][j].getX(), wall[i][j].getY())));
+            return root;
+        }
+
     }
-
-    private GridPane drawWall() {
-        GridPane root = new GridPane();
-        IntStream.range(0, 10)
-                .forEach(i -> IntStream.range(0, 10)
-                        .forEach(j -> root.add(wall[i][j].getNode(), wall[i][j].getX(), wall[i][j].getY())));
-        return root;
-    }
-
-}
